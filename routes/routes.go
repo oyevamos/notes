@@ -1,11 +1,15 @@
 package routes
 
 import (
-	"github.com/gorilla/mux"
 	"github.com/oyevamos/notes.git/controllers"
+	"net/http"
 )
 
-var NotesRoutes = func(router *mux.Router) {
-	router.HandleFunc("/note", controllers.CreateNote).Methods("POST")
-	router.HandleFunc("/note", controllers.GetAllNotes).Methods("GET")
+func InitRoutes() *http.ServeMux {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/create", controllers.CreateHandler)
+	mux.HandleFunc("/read", controllers.ReadHandler)
+
+	return mux
 }

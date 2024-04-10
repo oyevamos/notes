@@ -1,15 +1,23 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
+	"fmt"
+	"github.com/oyevamos/notes.git/config"
+	"github.com/oyevamos/notes.git/controllers"
 	"github.com/oyevamos/notes.git/routes"
 	"log"
 	"net/http"
 )
 
 func main() {
-	r := mux.NewRouter()
-	routes.NotesRoutes(r)
-	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe(":7500", r))
+	dbpool := config.ConnectDB()
+	defer dbpool.Close()
+
+	// Установка dbpool для контроллеров
+	controllers.SetDBPool(dbpool)
+
+	router := routes.InitRoutes()
+
+	fmt.Println("Server is running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:13
     volumes:
-      - ./migrations/create.sql:/docker-entrypoint-initdb.d/create.sql
+      - ./migration/create.sql:/docker-entrypoint-initdb.d/create.sql
     environment:
       POSTGRES_DB: "notes_db"
       POSTGRES_USER: "buba"
