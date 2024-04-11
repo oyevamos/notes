@@ -5,6 +5,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/oyevamos/notes.git/models"
@@ -34,5 +35,8 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) {
 
 func InsertNoteIntoDB(ctx context.Context, note *models.Note) error {
 	_, err := appConfig.DBPool.Exec(ctx, "INSERT INTO notes (user_id, header, content, date_created, date_modified) VALUES ($1, $2, $3, $4, $5)", note.UserID, note.Header, note.Content, note.DateCreated, note.DateModified)
+	if err != nil {
+		log.Printf("Error inserting note into database: %v", err)
+	}
 	return err
 }
