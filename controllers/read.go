@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"github.com/oyevamos/notes.git/models"
 	"net/http"
 )
 
@@ -25,9 +26,12 @@ func ReadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(struct {
-		Content string `json:"content"`
-	}{Content: content})
+	response := models.NoteContent{Content: content}
+	err = json.NewEncoder(w).Encode(response)
+	if err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func queryContent(header string, content *string) error {
