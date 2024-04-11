@@ -19,7 +19,7 @@ func ReadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var content string
-	err := dbpool.QueryRow(context.Background(), "SELECT content FROM notes WHERE header = $1", header).Scan(&content)
+	err := queryContent(header, &content)
 	if err != nil {
 		http.Error(w, "Entry not found", http.StatusNotFound)
 		return
@@ -28,4 +28,9 @@ func ReadHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(struct {
 		Content string `json:"content"`
 	}{Content: content})
+}
+
+func queryContent(header string, content *string) error {
+	err := appConfig.DBPool.QueryRow(context.Background(), "SELECT content FROM notes WHERE header = $1", header).Scan(content)
+	return err
 }
