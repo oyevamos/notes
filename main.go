@@ -18,8 +18,9 @@ func main() {
 	}
 
 	appConfig := config.LoadAppConfig()
+	ctr := controllers.Controllers{Config: appConfig}
 
-	router := routes.InitRoutes()
+	router := routes.InitRoutes(&ctr)
 
 	controllers.SetAppConfig(appConfig)
 

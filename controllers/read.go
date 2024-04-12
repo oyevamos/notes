@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func ReadHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Controllers) ReadHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Only GET method is allowed", http.StatusMethodNotAllowed)
 		return
@@ -20,7 +20,7 @@ func ReadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var content string
-	err := queryContent(header, &content)
+	err := c.queryContent(header, &content)
 	if err != nil {
 		http.Error(w, "Entry not found", http.StatusNotFound)
 		return
@@ -34,7 +34,7 @@ func ReadHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func queryContent(header string, content *string) error {
+func (c *Controllers) queryContent(header string, content *string) error {
 	err := appConfig.DBPool.QueryRow(context.Background(), "SELECT content FROM notes WHERE header = $1", header).Scan(content)
 	return err
 }
