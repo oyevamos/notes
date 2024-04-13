@@ -8,11 +8,6 @@ import (
 )
 
 func (c *Controllers) ReadHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Only GET method is allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	header := r.URL.Query().Get("header")
 	if header == "" {
 		http.Error(w, "Missing header parameter", http.StatusBadRequest)
