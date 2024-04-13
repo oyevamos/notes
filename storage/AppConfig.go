@@ -10,17 +10,10 @@ import (
 )
 
 type AppConfig struct {
-	DBPool *pgxpool.Pool
+	Storage *Storage
 }
 
 func LoadAppConfig() *AppConfig {
-	dbPool := ConnectDB()
-	return &AppConfig{
-		DBPool: dbPool,
-	}
-}
-
-func ConnectDB() *pgxpool.Pool {
 	cfg := config.LoadConfig()
 	dbURL := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
@@ -29,5 +22,8 @@ func ConnectDB() *pgxpool.Pool {
 	if err != nil {
 		log.Fatalf("Unable to connect to database: %v", err)
 	}
-	return dbpool
+	storage := NewStorage(dbpool)
+	return &AppConfig{
+		Storage: storage,
+	}
 }
