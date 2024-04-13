@@ -8,14 +8,14 @@ import (
 )
 
 func (c *Controllers) ReadHandler(w http.ResponseWriter, r *http.Request) {
-	header := r.URL.Query().Get("header")
-	if header == "" {
-		http.Error(w, "Missing header parameter", http.StatusBadRequest)
+	title := r.URL.Query().Get("title")
+	if title == "" {
+		http.Error(w, "Missing title parameter", http.StatusBadRequest)
 		return
 	}
 
 	var content string
-	err := c.queryContent(header, &content)
+	err := c.queryContent(title, &content)
 	if err != nil {
 		http.Error(w, "Entry not found", http.StatusNotFound)
 		return
