@@ -17,25 +17,46 @@ type Config struct {
 }
 
 func LoadConfig() Config {
-	// Преобразование порта базы данных из строки в целое число
-	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
-	if err != nil {
-		log.Fatalf("Error parsing DB_PORT: %s", err)
+
+	getPort := func(envKey string, defaultValue int) int {
+		if value, exists := os.LookupEnv(envKey); exists {
+			port, err := strconv.Atoi(value)
+			if err != nil {
+				log.Fatalf("Error parsing %s: %s", envKey, err)
+			}
+			return port
+		}
+		return defaultValue
 	}
 
-	// Преобразование порта API из строки в целое число
-	apiPort, err := strconv.Atoi(os.Getenv("API_PORT"))
-	if err != nil {
-		log.Fatalf("Error parsing API_PORT: %s", err)
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	dbUser := os.Getenv("DB_USER")
+	if dbUser == "" {
+		dbUser = "buba"
+	}
+	dbPassword := os.Getenv("DB_PASSWORD")
+	if dbPassword == "" {
+		dbPassword = "12345"
+	}
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		dbName = "notes_db"
+	}
+	apiHost := os.Getenv("API_HOST")
+	if apiHost == "" {
+		apiHost = "localhost"
 	}
 
 	return Config{
 		DBHost:     os.Getenv("DB_HOST"),
-		DBPort:     dbPort,
+		DBPort:     getPort("DB_PORT", 5432),
 		DBUser:     os.Getenv("DB_USER"),
 		DBPassword: os.Getenv("DB_PASSWORD"),
 		DBName:     os.Getenv("DB_NAME"),
-		APIPort:    apiPort,
+		APIPort:    getPort("API_PORT", 8080),
 		APIHost:    os.Getenv("API_HOST"),
 	}
 }
