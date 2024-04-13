@@ -24,7 +24,7 @@ func LoadAppConfig() *AppConfig {
 func ConnectDB() *pgxpool.Pool {
 	cfg := LoadConfig()
 	dbURL := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 	dbpool, err := pgxpool.Connect(context.Background(), dbURL)
 	if err != nil {
