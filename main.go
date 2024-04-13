@@ -8,7 +8,6 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/oyevamos/notes.git/controllers"
-	"github.com/oyevamos/notes.git/routes"
 )
 
 func main() {
@@ -20,7 +19,7 @@ func main() {
 	appConfig := storage.LoadAppConfig()
 	ctr := controllers.Controllers{Config: appConfig}
 
-	router := routes.InitRoutes(&ctr)
+	router := controllers.InitRoutes(&ctr)
 
 	controllers.SetAppConfig(appConfig)
 

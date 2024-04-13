@@ -1,12 +1,11 @@
-package routes
+package controllers
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/oyevamos/notes.git/controllers"
 	"net/http"
 )
 
-func InitRoutes(ctr *controllers.Controllers) *mux.Router {
+func InitRoutes(ctr *Controllers) *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/create", ctr.CreateHandler).Methods(http.MethodPost)
