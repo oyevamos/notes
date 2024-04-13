@@ -3,15 +3,15 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"github.com/oyevamos/notes.git/storage"
 	"log"
 	"net/http"
 
-	"github.com/oyevamos/notes.git/config"
 	"github.com/oyevamos/notes.git/models"
 )
 
 type Controllers struct {
-	Config *config.AppConfig
+	Config *storage.AppConfig
 }
 
 func (c *Controllers) CreateHandler(w http.ResponseWriter, r *http.Request) {

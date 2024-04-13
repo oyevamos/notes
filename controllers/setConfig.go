@@ -1,9 +1,11 @@
 package controllers
 
-import "github.com/oyevamos/notes.git/config"
+import (
+	"github.com/oyevamos/notes.git/storage"
+)
 
-var appConfig *config.AppConfig
+var appConfig *storage.AppConfig
 
-func SetAppConfig(cfg *config.AppConfig) {
+func SetAppConfig(cfg *storage.AppConfig) {
 	appConfig = cfg
 }

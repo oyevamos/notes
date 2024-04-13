@@ -1,8 +1,9 @@
-package config
+package storage
 
 import (
 	"context"
 	"fmt"
+	"github.com/oyevamos/notes.git/config"
 	"log"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -20,7 +21,7 @@ func LoadAppConfig() *AppConfig {
 }
 
 func ConnectDB() *pgxpool.Pool {
-	cfg := LoadConfig()
+	cfg := config.LoadConfig()
 	dbURL := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
