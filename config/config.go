@@ -51,12 +51,12 @@ func LoadConfig() Config {
 	}
 
 	return Config{
-		DBHost:     os.Getenv("DB_HOST"),
+		DBHost:     dbHost,
 		DBPort:     getPort("DB_PORT", 5432),
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
-		DBName:     os.Getenv("DB_NAME"),
+		DBUser:     dbUser,
+		DBPassword: dbPassword,
+		DBName:     dbName,
 		APIPort:    getPort("API_PORT", 8080),
-		APIHost:    os.Getenv("API_HOST"),
+		APIHost:    apiHost,
 	}
 }
