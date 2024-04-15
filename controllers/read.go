@@ -13,7 +13,7 @@ func (c *Controllers) ReadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	content, err := c.Storage.GetNoteContentByHeader(r.Context(), title)
+	content, err := c.Storage.GetNoteContentByTitle(r.Context(), title)
 	if err != nil {
 		http.Error(w, "Entry not found", http.StatusNotFound)
 		return
