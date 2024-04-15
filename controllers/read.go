@@ -7,13 +7,13 @@ import (
 )
 
 func (c *Controllers) ReadHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Query().Get("title")
-	if title == "" {
-		http.Error(w, "Missing title parameter", http.StatusBadRequest)
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "Missing id parameter", http.StatusBadRequest)
 		return
 	}
 
-	content, err := c.Storage.GetNoteContentByTitle(r.Context(), title)
+	content, err := c.Storage.GetNoteContentByTitle(r.Context(), id)
 	if err != nil {
 		http.Error(w, "Entry not found", http.StatusNotFound)
 		return
