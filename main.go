@@ -16,26 +16,24 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	appConfig := storage.LoadAppConfig()
+	appConfig, nil := storage.LoadAppConfig()
+	if err != nil {
+		log.Fatalf("Error loading config: %s", err)
+	}
 
-	config := config.LoadConfig()
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("Error loading config: %s", err)
+	}
 
 	ctr := controllers.Controllers{
 		Storage: appConfig.Storage,
 	}
 
 	router := controllers.InitRoutes(&ctr)
-	serverAddress := fmt.Sprintf("%s:%d", config.APIHost, config.APIPort)
+	serverAddress := fmt.Sprintf("%s:%d", cfg.APIHost, cfg.APIPort)
 
 	fmt.Printf("Server is running on http://%s", serverAddress)
 	log.Fatal(http.ListenAndServe(serverAddress, router))
 
-	//ctr := controllers.Controllers{
-	//	Storage: appConfig.Storage,
-	//}
-	//
-	//router := controllers.InitRoutes(&ctr)
-	//
-	//fmt.Println("Server is running on http://localhost:8080")
-	//log.Fatal(http.ListenAndServe(":8080", router))
 }

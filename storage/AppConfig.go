@@ -13,8 +13,11 @@ type AppConfig struct {
 	Storage *Storage
 }
 
-func LoadAppConfig() *AppConfig {
-	cfg := config.LoadConfig()
+func LoadAppConfig() (*AppConfig, error) {
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		return nil, fmt.Errorf("error loading config: %w", err)
+	}
 	dbURL := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
@@ -25,5 +28,5 @@ func LoadAppConfig() *AppConfig {
 	storage := NewStorage(dbpool)
 	return &AppConfig{
 		Storage: storage,
-	}
+	}, nil
 }
