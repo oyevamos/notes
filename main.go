@@ -8,7 +8,9 @@ import (
 	"github.com/oyevamos/notes.git/controllers"
 	"github.com/oyevamos/notes.git/storage"
 	"log"
+	"net"
 	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -36,7 +38,7 @@ func main() {
 	}
 
 	router := controllers.InitRoutes(&ctr)
-	serverAddress := fmt.Sprintf("%s:%d", cfg.APIHost, cfg.APIPort)
+	serverAddress := net.JoinHostPort(cfg.APIHost, strconv.Itoa(cfg.APIPort))
 
 	fmt.Printf("Server is running on http://%s", serverAddress)
 	log.Fatal(http.ListenAndServe(serverAddress, router))

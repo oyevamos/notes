@@ -1,3 +1,6 @@
+# попробовал сделать POSTGRES_DB: "notes_db""
+#POSTGRES_USER: "postgres" POSTGRES_PASSWORD: "12345", но не заработало
+
 version: "3.9"
 services:
   postgres:
