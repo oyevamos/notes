@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/oyevamos/notes.git/config"
@@ -19,6 +20,10 @@ func main() {
 	appConfig, nil := storage.LoadAppConfig()
 	if err != nil {
 		log.Fatalf("Error loading config: %s", err)
+	}
+
+	if err := appConfig.Storage.Ping(context.Background()); err != nil {
+		log.Fatalf("Failed to connect to database: %s", err)
 	}
 
 	cfg, err := config.LoadConfig()
