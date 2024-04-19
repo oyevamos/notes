@@ -39,12 +39,12 @@ func LoadConfig() (Config, error) {
 
 	dbPort, err := getIntValue("DB_PORT", 5432)
 	if err != nil {
-		//log.Fatalf("Error parsing DB_PORT: %s", err)
+
 		return Config{}, err
 	}
 	apiPort, err := getIntValue("API_PORT", 8080)
 	if err != nil {
-		//log.Fatalf("Error parsing API_PORT: %s", err)
+
 		return Config{}, err
 	}
 

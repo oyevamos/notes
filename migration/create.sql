@@ -6,5 +6,3 @@ CREATE TABLE notes (
                        date_created TIMESTAMP,
                        date_modified TIMESTAMP
 );
-
--- DROP TABLE notes;

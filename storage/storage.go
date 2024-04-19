@@ -26,11 +26,11 @@ func (s *Storage) InsertNote(ctx context.Context, note *models.Note) error {
 	return err
 }
 
-func (s *Storage) GetNoteContentByTitle(ctx context.Context, title string) (string, error) {
-	var content string
-	err := s.DBPool.QueryRow(ctx, "SELECT content FROM notes WHERE title = $1", title).Scan(&content)
+func (s *Storage) GetNoteById(ctx context.Context, id int) (*models.Note, error) {
+	var note models.Note
+	err := s.DBPool.QueryRow(ctx, "SELECT user_id, title, content, date_created, date_modified FROM notes WHERE id = $1", id).Scan(&note.UserID, &note.Title, &note.Content, &note.DateCreated, &note.DateModified)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return content, nil
+	return &note, nil
 }
