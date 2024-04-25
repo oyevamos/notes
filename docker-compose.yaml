@@ -2,14 +2,40 @@
 #POSTGRES_USER: "postgres" POSTGRES_PASSWORD: "12345", но не заработало
 
 version: "3.9"
+
 services:
-  postgres:
+  notes-service-storage:
     image: postgres:13
+    container_name: notes-service-storage
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U buba -d notes_db"]
+      interval: 2s
+      timeout: 1s
+      retries: 5
+    environment:
+      - POSTGRES_DB=notes_db
+      - POSTGRES_USER=buba
+      - POSTGRES_PASSWORD=12345
     volumes:
       - ./migration/create.sql:/docker-entrypoint-initdb.d/create.sql
-    environment:
-      POSTGRES_DB: "notes_db"
-      POSTGRES_USER: "buba"
-      POSTGRES_PASSWORD: "12345"
     ports:
       - "5432:5432"
+    networks:
+      - default-network
+
+  notes-service-storage-migrate:
+    image: migrate/migrate:v4.15.2
+    container_name: notes-service-storage-migrate
+    volumes:
+      - .:/src:ro
+    working_dir: /src
+    entrypoint: migrate -database "postgres://buba:12345@notes-service-storage:5432/notes_db?sslmode=disable" -source file://./migrations -verbose up
+    depends_on:
+      notes-service-storage:
+        condition: service_healthy
+    networks:
+      - default-network
+
+networks:
+  default-network:
+    driver: bridge
