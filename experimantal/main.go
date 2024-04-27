@@ -34,7 +34,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	for i := 0; i < 10000000; i++ {
-		userID := rand.Intn(99) + 1
+		userID := rand.Intn(999) + 1
 		title := fmt.Sprintf("Title %d", rand.Intn(10000000))
 		content := fmt.Sprintf("Content %d", rand.Intn(10000000))
 		dateCreated := time.Now()

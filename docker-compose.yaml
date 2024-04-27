@@ -29,12 +29,17 @@ services:
     volumes:
       - .:/src:ro
     working_dir: /src
-    entrypoint: migrate -database "postgres://buba:12345@notes-service-storage:5432/notes_db?sslmode=disable" -source file://./migrations -verbose up
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        migrate -database "postgres://buba:12345@notes-service-storage:5432/notes_db?sslmode=disable" -source file:///src/migrations -verbose up
     depends_on:
       notes-service-storage:
         condition: service_healthy
     networks:
       - default-network
+
 
 networks:
   default-network:
